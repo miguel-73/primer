@@ -18,12 +18,12 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import 'primeicons/primeicons.css';
 
+
 interface Product {
     id: string | null;
     code: string;
     name: string;
     description: string;
-    image: string | null;
     price: number;
     category: string | null;
     quantity: number;
@@ -31,20 +31,18 @@ interface Product {
     rating: number;
 }
 
-export default function ProductsDemo() {
+export default function Tablaeje() {
     let emptyProduct: Product = {
         id: null,
         code: '',
         name: '',
-        image: null,
         description: '',
         category: null,
         price: 0,
         quantity: 0,
         rating: 0,
-        inventoryStatus: 'INSTOCK',
+        inventoryStatus: 'CC',
     };
-
     const [products, setProducts] = useState<Product[]>([]);
     const [productDialog, setProductDialog] = useState<boolean>(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState<boolean>(false);
@@ -94,12 +92,12 @@ export default function ProductsDemo() {
                 const index = findIndexById(product.id);
 
                 _products[index] = _product;
-                toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                toast.current?.show({ severity: 'success', summary: 'Correcto', detail: 'Agregado correctamente', life: 3000 });
             } else {
                 _product.id = createId();
-                _product.image = 'product-placeholder.svg';
+                // _product.image = 'product-placeholder.svg';
                 _products.push(_product);
-                toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                toast.current?.show({ severity: 'success', summary: 'Agregado', detail: 'Agregado corectamente', life: 3000 });
             }
 
             setProducts(_products);
@@ -124,7 +122,7 @@ export default function ProductsDemo() {
         setProducts(_products);
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
-        toast.current?.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        toast.current?.show({ severity: 'success', summary: 'Eliminado', detail: 'Eliminado correctamente', life: 3000 });
     };
 
     const findIndexById = (id: string) => {
@@ -208,9 +206,9 @@ export default function ProductsDemo() {
         return <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />;
     };
 
-    const imageBodyTemplate = (rowData: Product) => {
-        return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image!} className="shadow-2 border-round" style={{ width: '64px' }} />;
-    };
+    // const imageBodyTemplate = (rowData: Product) => {
+    //     return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image!} className="shadow-2 border-round" style={{ width: '64px' }} />;
+    // };
 
     const priceBodyTemplate = (rowData: Product) => {
         return formatCurrency(rowData.price);
@@ -232,16 +230,15 @@ export default function ProductsDemo() {
             </React.Fragment>
         );
     };
-
     const getSeverity = (product: Product) => {
         switch (product.inventoryStatus) {
-            case 'INSTOCK':
+            case 'CE':
                 return 'success';
 
-            case 'LOWSTOCK':
+            case 'CC':
                 return 'warning';
 
-            case 'OUTOFSTOCK':
+            case 'S':
                 return 'danger';
 
             default:
@@ -251,11 +248,13 @@ export default function ProductsDemo() {
 
     const header = (
         <div className="flex flex-wrap gap-2 align-items-center justify-content-between">
-            <h4 className="m-0">Manage Products</h4>
+            {/* <h4 className="m-0" >Manage Products</h4> */}
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" placeholder="Search..." onInput={(e) => { const target = e.target as HTMLInputElement; setGlobalFilter(target.value); }} />
+                <InputText type="search" placeholder="Buscar . . ." onInput={(e) => { const target = e.target as HTMLInputElement; setGlobalFilter(target.value); }} />
             </span>
+            <Button icon="pi pi-plus" rounded aria-label="Filter" onClick={openNew} />
+            <Button icon="pi pi-upload" rounded aria-label="Filter" onClick={exportCSV} />
         </div>
     );
     const productDialogFooter = (
@@ -281,7 +280,7 @@ export default function ProductsDemo() {
         <div>
             <Toast ref={toast} />
             <div className="card">
-                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
+                {/* <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar> */}
 
                 <DataTable ref={dt} value={products} selection={selectedProducts}
                     onSelectionChange={(e) => {
@@ -289,70 +288,57 @@ export default function ProductsDemo() {
                             setSelectedProducts(e.value);
                         }
                     }}
-                    dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
+                    dataKey="id" paginator rows={5} rowsPerPageOptions={[5, 10]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" globalFilter={globalFilter} header={header}>
+                    currentPageReportTemplate="De {first} a {last} personas de {totalRecords} personas" globalFilter={globalFilter} header={header}>
                     <Column selectionMode="multiple" exportable={false}></Column>
-                    <Column field="code" header="Code" sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="name" header="Name" sortable style={{ minWidth: '16rem' }}></Column>
-                    <Column field="image" header="Image" body={imageBodyTemplate}></Column>
-                    <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
-                    <Column field="category" header="Category" sortable style={{ minWidth: '10rem' }}></Column>
-                    <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
+                    <Column field="inventoryStatus" header="Tipo de documeto" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
+                    <Column field="price" header="Numero de docuemto"  sortable style={{ minWidth: '8rem' }}></Column>
+                    {/* <Column field="code" header="Numero de docuemto " sortable style={{ minWidth: '13rem' }}></Column> */}
+                    <Column field="name" header="Primer nombre " sortable style={{ minWidth: '13rem' }}></Column>
+                    {/* <Column field="image" header="Image" body={imageBodyTemplate}></Column> */}
+                    <Column field="category" header="Seguendo nombre" sortable style={{ minWidth: '12rem' }}></Column>
+                    {/* <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column> */}
+                    <Column header="Accion" body={actionBodyTemplate} exportable={false} style={{ minWidth: '3rem' }}></Column>
                 </DataTable>
             </div>
 
-            <Dialog visible={productDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                {product.image && <img src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`} alt={product.image} className="product-image block m-auto pb-3" />}
+            <Dialog visible={productDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Persona " modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                {/* {product.image && <img src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`} alt={product.image} className="product-image block m-auto pb-3" />} */}
                 <div className="field">
                     <label htmlFor="name" className="font-bold">
-                        Name
+                        Primer nombre
                     </label>
                     <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                    {submitted && !product.name && <small className="p-error">Name is required.</small>}
+                    {submitted && !product.name && <small className="p-error">Primer apellido requerido</small>}
                 </div>
                 <div className="field">
-                    <label htmlFor="description" className="font-bold">
+                    {/* <label htmlFor="description" className="font-bold">
                         Description
-                    </label>
+                    </label> */}
                     {/* <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} /> */}
                 </div>
 
                 <div className="field">
-                    <label className="mb-3 font-bold">Category</label>
-                    <div className="formgrid grid">
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                            <label htmlFor="category1">Accessories</label>
-                        </div>
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                            <label htmlFor="category2">Clothing</label>
-                        </div>
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                            <label htmlFor="category3">Electronics</label>
-                        </div>
-                        <div className="field-radiobutton col-6">
-                            <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                            <label htmlFor="category4">Fitness</label>
-                        </div>
-                    </div>
+                    <label className="mb-3 font-bold" htmlFor="category">
+                        Primer apellido
+                    </label>
+                    <InputText id="category" value={product.category ?? ''} onChange={(e) => onInputChange(e, 'category')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.category })} />
+                    {submitted && !product.category && <small className="p-error">Primer apellido requerido</small>}
                 </div>
-
                 <div className="formgrid grid">
                     <div className="field col">
                         <label htmlFor="price" className="font-bold">
-                            Price
+                            Numero de documento
+                            
                         </label>
-                        {/* <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" /> */}
+                        <InputNumber id="price" value={product.price} onChange={(e) => onInputNumberChange(e, 'price')}  />
+
                     </div>
                     <div className="field col">
-                        <label htmlFor="quantity" className="font-bold">
+                        {/* <label htmlFor="quantity" className="font-bold">
                             Quantity
-                        </label>
+                        </label> */}
                         {/* <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} /> */}
                     </div>
                 </div>
@@ -363,12 +349,11 @@ export default function ProductsDemo() {
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     {product && (
                         <span>
-                            Are you sure you want to delete <b>{product.name}</b>?
+                            seguro que queire elimir a <b>{product.name}</b>?
                         </span>
                     )}
                 </div>
             </Dialog>
-
             <Dialog visible={deleteProductsDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
