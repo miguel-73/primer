@@ -9,6 +9,8 @@ export const FormProvider = ({ children }: any) => {
         value1: '',
         value2: "",
         value3: "",
+        value4: "",
+        value5: "",
     });
 
     const limpiarCampos = () => {
@@ -17,6 +19,8 @@ export const FormProvider = ({ children }: any) => {
             value1: "",
             value2: "",
             value3: "",
+            value4: "",
+            value5: "",
         });
     };
 

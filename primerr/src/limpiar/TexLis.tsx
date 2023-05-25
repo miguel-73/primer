@@ -4,8 +4,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormContext from '../context/useForm';
 
 export default function BasicSelect() {
+  const { campo1Value, setCampo1Value }: any = React.useContext(FormContext);
   const [age, setAge] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -19,9 +21,14 @@ export default function BasicSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
+          value={campo1Value.value4} // Mantienes el valor de campo1Value.value2
           label="Age"
-          onChange={handleChange}
+          onChange={(e) =>
+            setCampo1Value({
+              ...campo1Value,
+              value4: e.target.value,
+            })
+          }
         >
           <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>

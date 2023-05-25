@@ -7,9 +7,9 @@ export default function Otro() {
   const {
     campo1Value,
     setCampo1Value,
-}: any
+  }: any
     = React.useContext(FormContext)
-    
+
   return (
     <Stack
     >
