@@ -5,6 +5,7 @@ import { TextField } from '@mui/material';
 import FormContext from '../context/useForm';
 
 export default function BasicButtons() {
+
     const {
         campo1Value,
         setCampo1Value,
@@ -14,6 +15,7 @@ export default function BasicButtons() {
     return (
         <Stack spacing={2} direction="row">
             <Button variant="contained" onClick={limpiarCampos}>Limpiar</Button>
+            
             <TextField
                 value={campo1Value.value1}
                 onChange={(e) => setCampo1Value({
@@ -21,6 +23,7 @@ export default function BasicButtons() {
                     value1: e.target.value,
                 })}
             />
+
         </Stack>
     );
 }
