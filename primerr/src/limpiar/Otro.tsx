@@ -9,7 +9,6 @@ export default function Otro() {
     setCampo1Value,
   }: any
     = React.useContext(FormContext)
-
   return (
     <Stack
     >

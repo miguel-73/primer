@@ -1,8 +1,9 @@
 import { Box, Button, Grid, TextField } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
+import FormContext from "../context/useForm";
 
-export const CRUD = () => {
+export const Crud = () => {
   const [rows, setRows] = React.useState<
     { id: number; nombre: string; apellido: string; telefono: string; accion: number; }[]
   >([]);
@@ -11,7 +12,12 @@ export const CRUD = () => {
   const [codigo, setCodigo] = React.useState(1);
   const [telefono, setTelefono] = React.useState("");
 
-  
+  const {
+    campo1Value,
+    setCampo1Value,
+    limpiarCampos,
+}: any
+    = useContext(FormContext)
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Codigo", width: 150 },
@@ -55,35 +61,6 @@ export const CRUD = () => {
       }}
     >
       <Grid container rowSpacing={2} sx={{ mt: 1 }}>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            variant="outlined"
-            size="small"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Apellido"
-            value={apellido}
-            onChange={(e) => setApellido(e.target.value)}
-            variant="outlined"
-            size="small"
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="outlined-basic"
-            label="Telefono"
-            value={telefono}
-            onChange={(e) => setTelefono(e.target.value)}
-            variant="outlined"
-            size="small"
-          />
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ ml: 1, mr: 1 }}>
@@ -93,11 +70,10 @@ export const CRUD = () => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" onClick={handleGuardar}>
-            Guardar
-          </Button>
+
+      
         </Grid>
-      </Grid>
+      
     </Box>
   );
 };
