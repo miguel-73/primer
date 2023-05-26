@@ -1,29 +1,44 @@
 import { Box, Button, Grid, TextField } from "@mui/material";
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
 
 export const CRUD = () => {
   const [rows, setRows] = React.useState<
-    { id: number; nombre: string; apellido: string; telefono: string }[]
+    { id: number; nombre: string; apellido: string; telefono: string; accion: number; }[]
   >([]);
   const [nombre, setNombre] = React.useState("");
   const [apellido, setApellido] = React.useState("");
   const [codigo, setCodigo] = React.useState(1);
   const [telefono, setTelefono] = React.useState("");
 
+  
+
   const columns: GridColDef[] = [
-    { field: "codigo", headerName: "Codigo", width: 150 },
+    { field: "id", headerName: "Codigo", width: 150 },
     { field: "nombre", headerName: "Nombre", width: 150 },
     { field: "apellido", headerName: "Apellido", width: 150 },
     { field: "telefono", headerName: "Telefono", width: 150 },
+    { field: 'accion', headerName: 'Acción', width: 150, renderCell: (params) => <Button onClick={() => handleBorrar(params.id)}>Borrar</Button> },
   ];
 
+  const handleBorrar = (id: GridRowId) => {
+    const parsedId = typeof id === 'number' ? id : parseInt(id, 10);
+    const updatedRows = rows.filter((row) => row.id !== parsedId);
+    setRows(updatedRows);
+  };
+
   const handleGuardar = () => {
+
+    if (nombre.trim() === '' || telefono.trim() === '' || apellido.trim() === '') {
+      return; // Evita guardar si alguno de los campos está vacío
+    }
+
     const newRow = {
       id: codigo,
       nombre: nombre,
       apellido: apellido,
       telefono: telefono,
+      accion: 0,
     };
 
     setRows((prevRows) => [...prevRows, newRow]);
