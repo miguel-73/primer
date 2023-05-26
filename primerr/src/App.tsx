@@ -7,7 +7,9 @@ import { FormProvider } from './context/useForm';
 import CampoTres from './limpiar/CapoTres';
 import Tablaeje from './limpiar/Tabla';
 import BasicSelect from './limpiar/TexLis';
-  
+import Gridd from './limpiar/Gridd';
+import { CRUD } from './Tabla';
+
 function App() {
   return (
     <>
@@ -15,17 +17,19 @@ function App() {
 
     
     <FormProvider>
-    <BasicButtons />
-    <TextFieldHiddenLabel />
+    {/* <BasicButtons />
+    <Otro />
     <CampoTres/> 
-    <BasicSelect/>
+    <BasicSelect/> */}
+    <Gridd/>
+    <CRUD/>
     </FormProvider>
 
 
 
 
 
-    <Tablaeje/>
+    {/* <Tablaeje/> */}
     </>
   );
 }
