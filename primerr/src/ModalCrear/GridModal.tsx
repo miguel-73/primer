@@ -3,8 +3,11 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
- import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import Modal from '../ModalCrear/Modal';
+import Nombre from './Nombre';
+import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
     background: 'linear-gradient(90deg, rgba(51,87,0,1) 0%, rgba(29,34,82,1) 50%, rgba(0,194,255,1) 100%)',
@@ -12,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
     textAlign: 'left',
     color: theme.palette.text.secondary,
-    borderRadius:"122"
+    borderRadius: "122"
 }));
 
 const Itemm = styled(Paper)(({ theme }) => ({
@@ -33,26 +36,42 @@ export default function GridModal() {
                             INFORMACION PRINCIPAL
                         </Typography>
                     </Item>
-                </Grid>   
+                </Grid>
             </Grid>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-  <Grid xs={6}>
-    <Itemm>1</Itemm>
-  </Grid>
-  <Grid xs={6}>
-    <Itemm>2</Itemm>
-  </Grid>
-  <Grid xs={6}>
-    <Itemm>3</Itemm>
-  </Grid>
-  <Grid xs={6}>
-    <Itemm>4</Itemm>
-  </Grid>
-  <Grid xs={6}>
-    <Itemm>4</Itemm>
-  </Grid>
-</Grid>
-            
+                <Grid xs={6}>
+                    <Itemm>
+                        <Box
+                            sx={{
+                                width: 500,
+                                maxWidth: '100%',
+                            }}
+                        >
+                            <TextField
+                                fullWidth
+                                helperText="Please enter your name"
+                                id="demo-helper-text-misaligned"
+                                label="Nombre"
+                            />
+                        </Box>
+                    </Itemm>
+                </Grid>
+                <Grid xs={6}>
+                    <Itemm>2</Itemm>
+                </Grid>
+                <Grid xs={6}>
+                    <Itemm>3</Itemm>
+                </Grid>
+                <Grid xs={6}>
+                    <Itemm>4</Itemm>
+                </Grid>
+                <Grid xs={6}>
+                    <Itemm>4</Itemm>
+                </Grid>
+                <Button variant="text">cerrar</Button>
+                <Button variant="contained">guardar</Button>
+            </Grid>
+
         </Box>
     );
 }

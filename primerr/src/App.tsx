@@ -1,5 +1,6 @@
 import './App.css';
-import { Crud } from './limpiar/Crud';
+import CrearPersonaButton from './Tabla2/Agregar';
+// import { Crud } from './limpiar/Crud';
 import Grrid from './limpiar/Grrid';
 import MaterialDataGrid from './limpiar/TablaVivero';
 
@@ -8,7 +9,8 @@ function App() {
     <>
       {/* <Crud /> */}
       {/* <MaterialDataGrid/> */}
-<Grrid/>
+      <Grrid />
+      {/* <CrearPersonaButton/> */}
     </>
   );
 }

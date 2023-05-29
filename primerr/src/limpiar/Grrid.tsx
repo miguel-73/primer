@@ -6,6 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import MaterialDataGrid from './TablaVivero';
 import Typography from '@mui/material/Typography';
 import Modal from '../ModalCrear/Modal';
+import { CRUD } from './Crud';
 
 const Item = styled(Paper)(({ theme }) => ({
     background: 'linear-gradient(90deg, rgba(51,87,0,1) 0%, rgba(29,34,82,1) 50%, rgba(0,194,255,1) 100%)',
@@ -34,17 +35,20 @@ export default function Grrid() {
                         </Typography>
                     </Item>
                 </Grid>
-
+{/* 
                 <Grid xs={12}>
                     <Modal />
-                </Grid>
+                </Grid> */}
 
 
                 <Grid xs={12}>
                     <Itemm>
-                        <MaterialDataGrid />
+                        {/* <MaterialDataGrid /> */}
+                        <CRUD/>
                     </Itemm>
                 </Grid>
+
+                
             </Grid>
         </Box>
     );
